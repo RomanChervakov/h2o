@@ -1,0 +1,28 @@
+.layout {
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  max-width: 1529px;
+  height: 100%;
+  background: linear-gradient(#54D3C2, #30898A);
+  border-radius: 56px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 100%;
+  max-width: 1402px;
+  border-radius: 56px 56px 0 0;
+}
+
+.main {
+  background-color: #F8F8F8;
+  border-radius: 56px 56px 0 0;
+  height: 100%;
+}
+
+.header {
+  height: 154px;
+}
