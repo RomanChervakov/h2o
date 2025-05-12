@@ -1,5 +1,10 @@
 import Layout from "./components/layout/Layout.tsx";
+import GeneralStatistics from "./components/general-statistics/GeneralStatistics.tsx";
 
 export default function App() {
-  return <Layout />;
+  return (
+    <Layout>
+      <GeneralStatistics />
+    </Layout>
+  );
 }

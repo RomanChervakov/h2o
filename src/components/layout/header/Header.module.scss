@@ -6,10 +6,12 @@
 
 .nav {
   display: flex;
+  max-width: 883px;
   gap: 38px;
 }
 
 .tab {
   font-family: "Proxima Nova", sans-serif;
+  flex-shrink: 0;
   font-weight: 600;
 }
