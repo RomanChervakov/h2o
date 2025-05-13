@@ -1,6 +1,6 @@
-import styles from "./Header.module.scss";
+import styles from "./LayoutHeader.module.scss";
 
-export default function Header() {
+export default function LayoutHeader() {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>

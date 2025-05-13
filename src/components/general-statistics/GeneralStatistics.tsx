@@ -1,4 +1,6 @@
 import { Line } from "react-chartjs-2";
+import styles from "./GeneralStatistics.module.scss";
+
 import {
   Chart,
   type ChartOptions,
@@ -14,6 +16,7 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
+import GeneralStatisticsLegendLabel from "./general-statistics-legend-label/GeneralStatisticsLegendLabel.tsx";
 
 Chart.register(
   LineElement,
@@ -93,6 +96,18 @@ const data = {
       pointHoverBorderWidth: 3,
       pointHoverBackgroundColor: "#FFFFFF",
     },
+    {
+      label: "Linear interpolation (default)",
+      data: [76, 45, 12, 128, 15, 98, 111, 45, 75, 11, 17, 17],
+      borderColor: "#73CF7A",
+      borderWidth: 3,
+      fill: false,
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 8,
+      pointHoverBorderWidth: 3,
+      pointHoverBackgroundColor: "#FFFFFF",
+    },
   ],
 };
 
@@ -160,8 +175,43 @@ const options: ChartOptions<"line"> = {
 
 export default function GeneralStatistics() {
   return (
-    <div style={{ width: 800 }}>
+    <div className={styles.card}>
+      <div className={styles.headingContainer}>
+        <h2 className={styles.heading}>Общая статистика</h2>
+        <div className={styles.periods}>
+          <button className={styles.periodButton}>Неделя</button>
+          <button className={styles.periodButton}>Месяц</button>
+          <button className={styles.periodButton}>Год</button>
+        </div>
+      </div>
       <Line data={data} options={options} />
+      <div className={styles.legendContainer}>
+        <GeneralStatisticsLegendLabel
+          backgroundColor="#73CF7A"
+          title="Выручка"
+          value={8615253}
+        />
+        <GeneralStatisticsLegendLabel
+          backgroundColor="#73CF7A"
+          title="Выручка"
+          value={8615253}
+        />
+        <GeneralStatisticsLegendLabel
+          backgroundColor="#73CF7A"
+          title="Выручка"
+          value={8615253}
+        />
+        <GeneralStatisticsLegendLabel
+          backgroundColor="#73CF7A"
+          title="Выручка"
+          value={8615253}
+        />
+        <GeneralStatisticsLegendLabel
+          backgroundColor="#73CF7A"
+          title="Выручка"
+          value={8615253}
+        />
+      </div>
     </div>
   );
 }
