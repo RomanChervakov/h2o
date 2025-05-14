@@ -1,6 +1,5 @@
 import { Line } from "react-chartjs-2";
 import styles from "./GeneralStatistics.module.scss";
-
 import {
   Chart,
   type ChartOptions,
@@ -17,6 +16,7 @@ import {
   Tooltip,
 } from "chart.js";
 import GeneralStatisticsLegendLabel from "./general-statistics-legend-label/GeneralStatisticsLegendLabel.tsx";
+import generateRandomArray from "../../generateRandomArray.ts";
 
 Chart.register(
   LineElement,
@@ -43,12 +43,24 @@ const labels = [
   "Дек",
 ];
 
+const MIN_AVERAGE = -10000;
+const MAX_AVERAGE = 30000;
+const LENGTH = 365;
+const MIN_SUM = -5000000;
+const MAX_SUM = 10000000;
+
 const data = {
   labels: labels,
   datasets: [
     {
       label: "Cubic interpolation",
-      data: [419, 524, 392, 471, 462, 152, 143, 519, 13, 154, 283, 293],
+      data: generateRandomArray(
+        MIN_AVERAGE,
+        MAX_AVERAGE,
+        LENGTH,
+        MIN_SUM,
+        MAX_SUM,
+      ),
       borderColor: "#A060FC",
       borderWidth: 3,
       fill: false,
@@ -60,7 +72,13 @@ const data = {
     },
     {
       label: "Linear interpolation (default)",
-      data: [31, 204, 131, 272, 16, 122, 161, 200, 300, 17, 267, 77],
+      data: generateRandomArray(
+        MIN_AVERAGE,
+        MAX_AVERAGE,
+        LENGTH,
+        MIN_SUM,
+        MAX_SUM,
+      ),
       borderColor: "#45AAF2",
       borderWidth: 3,
       fill: false,
@@ -72,9 +90,13 @@ const data = {
     },
     {
       label: "Linear interpolation (default)",
-      data: [
-        331, 394, 431, 272, -50, 202, 261, 448, 496, 535, 367, 477, 20, 20, 29,
-      ],
+      data: generateRandomArray(
+        MIN_AVERAGE,
+        MAX_AVERAGE,
+        LENGTH,
+        MIN_SUM,
+        MAX_SUM,
+      ),
       borderColor: "#30C7DC",
       borderWidth: 3,
       fill: false,
@@ -86,7 +108,13 @@ const data = {
     },
     {
       label: "Linear interpolation (default)",
-      data: [10, 10, 20, 30, 40, 30, 10, 10, 45, 89, 1, 1],
+      data: generateRandomArray(
+        MIN_AVERAGE,
+        MAX_AVERAGE,
+        LENGTH,
+        MIN_SUM,
+        MAX_SUM,
+      ),
       borderColor: "#F5E230",
       borderWidth: 3,
       fill: false,
@@ -98,7 +126,13 @@ const data = {
     },
     {
       label: "Linear interpolation (default)",
-      data: [76, 45, 12, 128, 15, 98, 111, 45, 75, 11, 17, 17],
+      data: generateRandomArray(
+        MIN_AVERAGE,
+        MAX_AVERAGE,
+        LENGTH,
+        MIN_SUM,
+        MAX_SUM,
+      ),
       borderColor: "#73CF7A",
       borderWidth: 3,
       fill: false,
@@ -166,8 +200,11 @@ const options: ChartOptions<"line"> = {
     },
     y: {
       display: false,
-      title: {
-        display: true,
+      border: {
+        display: false,
+      },
+      grid: {
+        drawTicks: false,
       },
     },
   },
