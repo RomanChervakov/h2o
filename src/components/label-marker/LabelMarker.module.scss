@@ -1,0 +1,31 @@
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.marker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  font-size: 20px;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.title {
+  color: #6D7986;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.value {
+  color: #323F47;
+  font-size: 16px;
+  font-weight: 700;
+}
+

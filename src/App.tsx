@@ -8,6 +8,7 @@ import getRandomNumberInRange from "./helpers/getRandomNumberInRange.ts";
 import { DIVISIONS, TOTAL, TRANSACTION_TYPES, YEAR } from "./constants.ts";
 import type { IDataItem, TDivision, TTotal } from "./types.ts";
 import { useState } from "react";
+import ProblemZones from "./components/problem-zones/ProblemZones.tsx";
 
 const randomData = Array.from(
   { length: 30000 },
@@ -50,39 +51,42 @@ export default function App() {
 
   return (
     <Layout>
-      <div className={styles.report}>
-        <h1 className={styles.heading}>Сводный отчет</h1>
-        <div className={styles.reportCards}>
-          <ReportCard
-            title="Итоги"
-            percentage={randomPercentageTotal}
-            amount={totalB2B + totalB2C}
-            isTotal
-          />
-          <button
-            onClick={() => {
-              setDivision(DIVISIONS.B2B);
-            }}
-          >
+      <h1 className={styles.heading}>Сводный отчет</h1>
+      <div className={styles.container}>
+        <div className={styles.report}>
+          <div className={styles.reportCards}>
             <ReportCard
-              title={DIVISIONS.B2B}
-              amount={totalB2B}
-              percentage={randomPercentageB2B}
+              title="Итоги"
+              percentage={randomPercentageTotal}
+              amount={totalB2B + totalB2C}
+              isTotal
             />
-          </button>
-          <button
-            onClick={() => {
-              setDivision(DIVISIONS.B2C);
-            }}
-          >
-            <ReportCard
-              title={DIVISIONS.B2C}
-              amount={totalB2C}
-              percentage={randomPercentageB2C}
-            />
-          </button>
+            <button
+              onClick={() => {
+                setDivision(DIVISIONS.B2B);
+              }}
+            >
+              <ReportCard
+                title={DIVISIONS.B2B}
+                amount={totalB2B}
+                percentage={randomPercentageB2B}
+              />
+            </button>
+            <button
+              onClick={() => {
+                setDivision(DIVISIONS.B2C);
+              }}
+            >
+              <ReportCard
+                title={DIVISIONS.B2C}
+                amount={totalB2C}
+                percentage={randomPercentageB2C}
+              />
+            </button>
+          </div>
+          <GeneralStatistics data={randomDataGrouped} division={division} />
         </div>
-        <GeneralStatistics data={randomDataGrouped} division={division} />
+        <ProblemZones />
       </div>
     </Layout>
   );

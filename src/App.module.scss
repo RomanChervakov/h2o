@@ -16,4 +16,11 @@
   color: #323F47;
   font-weight: 800;
   font-size: 28px;
+  margin-bottom: 24px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
 }
