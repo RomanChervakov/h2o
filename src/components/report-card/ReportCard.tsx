@@ -7,7 +7,6 @@ interface IReportCardProps {
   title: string;
   percentage: number;
   amount: number;
-  onClick?: () => void;
   isTotal?: boolean;
 }
 
@@ -15,14 +14,29 @@ export default function ReportCard({
   title,
   percentage,
   amount,
-  onClick,
+  isTotal,
 }: IReportCardProps) {
   return (
-    <button className={styles.card} onClick={onClick}>
+    <div
+      className={clsx(
+        styles.card,
+        isTotal
+          ? percentage >= 0
+            ? styles.success
+            : styles.danger
+          : percentage >= 0
+            ? styles.buttonSuccess
+            : styles.buttonDanger,
+      )}
+    >
       <span
         className={clsx(
           styles.pill,
-          percentage >= 0 ? styles.pillSuccess : styles.pillDanger,
+          isTotal
+            ? styles.total
+            : percentage >= 0
+              ? styles.success
+              : styles.danger,
         )}
       >
         <FontAwesomeIcon icon={percentage >= 0 ? faArrowUp : faArrowDown} />
@@ -30,6 +44,6 @@ export default function ReportCard({
       </span>
       <span className={styles.amount}>₽ {amount?.toLocaleString("fr-FR")}</span>
       <span className={styles.division}>{title}</span>
-    </button>
+    </div>
   );
 }

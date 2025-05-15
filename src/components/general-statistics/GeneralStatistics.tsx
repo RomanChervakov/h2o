@@ -6,6 +6,7 @@ import GeneralStatisticsTabs from "./general-statistics-tabs/GeneralStatisticsTa
 import type {
   IDataItem,
   TChartTabs,
+  TDivision,
   TTotal,
   TTransaction,
   TUnit,
@@ -40,13 +41,13 @@ const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
 const MONTH_INDEX = 0;
 
 interface IGeneralStatisticsProps {
-  currentData: IDataItem[];
-  totalData: IDataItem[];
+  data: Record<TDivision | TTotal, IDataItem[]>;
+  division: TDivision;
 }
 
 export default function GeneralStatistics({
-  currentData,
-  totalData,
+  data,
+  division,
 }: IGeneralStatisticsProps) {
   const [activeTab, setActiveTab] = useState<TChartTabs>(CHART_TABS.YEAR);
 
@@ -64,11 +65,11 @@ export default function GeneralStatistics({
         ...Object.values(TRANSACTION_TYPES).map((type) =>
           createDataset(
             type,
-            getYearlyReport(currentData, type),
+            getYearlyReport(data[division], type),
             CHART_COLORS[type],
           ),
         ),
-        createDataset(TOTAL, getYearlyReport(totalData), CHART_COLORS[TOTAL]),
+        createDataset(TOTAL, getYearlyReport(data[TOTAL]), CHART_COLORS[TOTAL]),
       ],
     },
     [CHART_TABS.MONTH]: {
@@ -80,13 +81,13 @@ export default function GeneralStatistics({
         ...Object.values(TRANSACTION_TYPES).map((type) =>
           createDataset(
             type,
-            getMonthlyReport(currentData, YEAR, MONTH_INDEX, type),
+            getMonthlyReport(data[division], YEAR, MONTH_INDEX, type),
             CHART_COLORS[type],
           ),
         ),
         createDataset(
           TOTAL,
-          getMonthlyReport(totalData, YEAR, MONTH_INDEX),
+          getMonthlyReport(data[TOTAL], YEAR, MONTH_INDEX),
           CHART_COLORS[TOTAL],
         ),
       ],
@@ -96,7 +97,7 @@ export default function GeneralStatistics({
   return (
     <div className={styles.card}>
       <div className={styles.headingContainer}>
-        <h2 className={styles.heading}>Общая статистика</h2>
+        <h2 className={styles.heading}>Общая статистика {division}</h2>
         <GeneralStatisticsTabs
           activeTab={activeTab}
           handleTabClick={handleTabClick}

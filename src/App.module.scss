@@ -1,13 +1,19 @@
-.reportCards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-}
-
 .report {
   display: flex;
   flex-direction: column;
   gap: 32px;
   width: 100%;
   max-width: 868px;
+}
+
+.reportCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.heading {
+  color: #323F47;
+  font-weight: 800;
+  font-size: 28px;
 }
