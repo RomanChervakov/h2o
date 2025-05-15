@@ -2,7 +2,6 @@
   margin: 0 auto;
   display: flex;
   width: 100%;
-  height: 100%;
   background: linear-gradient(#54D3C2, #30898A);
   border-radius: 56px;
 }
@@ -16,6 +15,9 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
+  gap:  32px;
   background-color: #F8F8F8;
   border-radius: 56px 56px 0 0;
   height: 100%;

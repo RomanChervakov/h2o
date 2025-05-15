@@ -1,0 +1,44 @@
+[
+  {
+    "label": "Выручка",
+    "color": "#73CF7A",
+    "min": -30000000,
+    "max": 1500000000,
+    "minAverage": -1500000,
+    "maxAverage": 9000000
+  },
+  {
+    "label": "Затраты",
+    "color": "#30C7DC",
+    "min": -30000000,
+    "max": 1500000000,
+    "minAverage": -1500000,
+    "maxAverage": 9000000,
+    "important": true
+  },
+  {
+    "label": "Прибыль",
+    "color": "#45AAF2",
+    "min": -30000000,
+    "max": 1500000000,
+    "minAverage": -1500000,
+    "maxAverage": 9000000,
+    "important": true
+  },
+  {
+    "label": "Задолженность",
+    "color": "#F5E230",
+    "min": 0,
+    "max": 1500000000,
+    "minAverage": 0,
+    "maxAverage": 9000000
+  },
+  {
+    "label": "Итог",
+    "color": "#AC74FC",
+    "min": -30000000,
+    "max": 1500000000,
+    "minAverage": -1500000,
+    "maxAverage": 9000000
+  }
+]

@@ -1,0 +1,12 @@
+.reportCards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: 870px;
+}
