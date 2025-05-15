@@ -5,6 +5,8 @@ export type TDivision = (typeof DIVISIONS)[keyof typeof DIVISIONS];
 export type TTransaction =
   (typeof TRANSACTION_TYPES)[keyof typeof TRANSACTION_TYPES];
 
+export type TTotal = "total";
+
 export type TChartTabs = (typeof CHART_TABS)[keyof typeof CHART_TABS];
 
 export interface IDataItem {

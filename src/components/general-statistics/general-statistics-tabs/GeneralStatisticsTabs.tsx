@@ -2,7 +2,6 @@ import styles from "./GeneralStatisticsTabs.module.scss";
 import clsx from "clsx";
 import type { TChartTabs } from "../../../types.ts";
 import { CHART_TABS } from "../../../constants.ts";
-// import { useState } from "react";
 
 interface IGeneralStatisticsTabProps {
   activeTab: TChartTabs;

@@ -14,7 +14,7 @@ const randomData = Array.from(
   (): IDataItem => ({
     division: getRandomArrayItem(Object.values(DIVISIONS)),
     date: getRandomDateInYear(YEAR),
-    amount: getRandomNumberInRange(-500000, 500000),
+    amount: getRandomNumberInRange(-200000, 200000),
     type: getRandomArrayItem(Object.values(TRANSACTION_TYPES)),
   }),
 ).sort(
@@ -22,34 +22,46 @@ const randomData = Array.from(
     new Date(item1.date).getTime() - new Date(item2.date).getTime(),
 );
 
+const randomDataB2B = randomData.filter(
+  ({ division }) => division === DIVISIONS.B2B,
+);
+const randomDataB2C = randomData.filter(
+  ({ division }) => division === DIVISIONS.B2C,
+);
+
+const randomPercentageB2B = getRandomNumberInRange(-100, 100);
+const randomPercentageB2C = getRandomNumberInRange(-100, 100);
+const randomPercentageTotal = getRandomNumberInRange(-100, 100);
+
+const totalB2B = randomDataB2B.reduce((acc, { amount }) => acc + amount, 0);
+const totalB2C = randomDataB2C.reduce((acc, { amount }) => acc + amount, 0);
+
 export default function App() {
-  const [data, setData] = useState(
-    randomData.filter(({ division }) => division === DIVISIONS.B2B),
-  );
+  const [data, setData] = useState(randomDataB2B);
 
   return (
     <Layout>
       <div className={styles.report}>
         <div className={styles.reportCards}>
-          <ReportCard title="Итоги" />
+          <ReportCard
+            title="Итоги"
+            percentage={randomPercentageTotal}
+            amount={totalB2B + totalB2C}
+          />
           <ReportCard
             title={DIVISIONS.B2B}
-            onClick={() =>
-              setData(
-                randomData.filter(({ division }) => division === DIVISIONS.B2B),
-              )
-            }
+            amount={totalB2B}
+            percentage={randomPercentageB2B}
+            onClick={() => setData(randomDataB2B)}
           />
           <ReportCard
             title={DIVISIONS.B2C}
-            onClick={() =>
-              setData(
-                randomData.filter(({ division }) => division === DIVISIONS.B2C),
-              )
-            }
+            amount={totalB2C}
+            percentage={randomPercentageB2C}
+            onClick={() => setData(randomDataB2C)}
           />
         </div>
-        <GeneralStatistics data={data} />
+        <GeneralStatistics currentData={data} totalData={randomData} />
       </div>
     </Layout>
   );

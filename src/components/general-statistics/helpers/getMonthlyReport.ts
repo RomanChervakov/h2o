@@ -6,15 +6,15 @@ export function getDaysInMonth(year: number, month: number) {
 
 export function getMonthlyReport(
   data: IDataItem[],
-  type: TTransaction,
   year: number,
   month: number,
+  type?: TTransaction | string,
 ) {
   return Array.from({ length: getDaysInMonth(year, month) }, (_, date) => {
     return data
       .filter(
         (item) =>
-          item.type === type &&
+          (type ? item.type === type : true) &&
           item.date.getMonth() === month &&
           item.date.getDate() === date + 1,
       )

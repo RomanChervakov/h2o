@@ -6,12 +6,14 @@ import GeneralStatisticsTabs from "./general-statistics-tabs/GeneralStatisticsTa
 import type {
   IDataItem,
   TChartTabs,
+  TTotal,
   TTransaction,
   TUnit,
 } from "../../types.ts";
 import {
   CHART_TABS,
   MONTHS_IN_YEAR,
+  TOTAL,
   TRANSACTION_TYPES,
   YEAR,
 } from "../../constants.ts";
@@ -20,13 +22,14 @@ import {
   getDaysInMonth,
   getMonthlyReport,
 } from "./helpers/getMonthlyReport.ts";
-import GeneralStatisticsLegend from "./general-statistics-legend-label/GeneralStatisticsLegend.tsx";
+import GeneralStatisticsLegend from "./general-statistics-legend/GeneralStatisticsLegend.tsx";
 
-const CHART_COLORS: Record<TTransaction, string> = {
+const CHART_COLORS: Record<TTransaction | TTotal, string> = {
   [TRANSACTION_TYPES.EXPANSES]: "#73CF7A",
   [TRANSACTION_TYPES.INCOME]: "#30C7DC",
   [TRANSACTION_TYPES.REVENUE]: "#45AAF2",
   [TRANSACTION_TYPES.DEBT]: "#F5E230",
+  [TOTAL]: "#AC74FC",
 } as const;
 
 const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
@@ -37,10 +40,14 @@ const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
 const MONTH_INDEX = 0;
 
 interface IGeneralStatisticsProps {
-  data: IDataItem[];
+  currentData: IDataItem[];
+  totalData: IDataItem[];
 }
 
-export default function GeneralStatistics({ data }: IGeneralStatisticsProps) {
+export default function GeneralStatistics({
+  currentData,
+  totalData,
+}: IGeneralStatisticsProps) {
   const [activeTab, setActiveTab] = useState<TChartTabs>(CHART_TABS.YEAR);
 
   const handleTabClick = useCallback((tab: TChartTabs) => {
@@ -53,22 +60,36 @@ export default function GeneralStatistics({ data }: IGeneralStatisticsProps) {
         { length: MONTHS_IN_YEAR },
         (_, month) => new Date(YEAR, month),
       ),
-      datasets: Object.values(TRANSACTION_TYPES).map((type) =>
-        createDataset(type, getYearlyReport(data, type), CHART_COLORS[type]),
-      ),
+      datasets: [
+        ...Object.values(TRANSACTION_TYPES).map((type) =>
+          createDataset(
+            type,
+            getYearlyReport(currentData, type),
+            CHART_COLORS[type],
+          ),
+        ),
+        createDataset(TOTAL, getYearlyReport(totalData), CHART_COLORS[TOTAL]),
+      ],
     },
     [CHART_TABS.MONTH]: {
       labels: Array.from(
         { length: getDaysInMonth(YEAR, MONTH_INDEX) },
         (_, date) => new Date(YEAR, MONTH_INDEX, date + 1),
       ),
-      datasets: Object.values(TRANSACTION_TYPES).map((type) =>
-        createDataset(
-          type,
-          getMonthlyReport(data, type, YEAR, MONTH_INDEX),
-          CHART_COLORS[type],
+      datasets: [
+        ...Object.values(TRANSACTION_TYPES).map((type) =>
+          createDataset(
+            type,
+            getMonthlyReport(currentData, YEAR, MONTH_INDEX, type),
+            CHART_COLORS[type],
+          ),
         ),
-      ),
+        createDataset(
+          TOTAL,
+          getMonthlyReport(totalData, YEAR, MONTH_INDEX),
+          CHART_COLORS[TOTAL],
+        ),
+      ],
     },
   };
 

@@ -5,6 +5,8 @@ export const TRANSACTION_TYPES = {
   DEBT: "debt",
 } as const;
 
+export const TOTAL = "total" as const;
+
 export const DIVISIONS = {
   B2B: "B2B",
   B2C: "B2C",
