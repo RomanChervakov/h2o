@@ -1,5 +1,5 @@
-export interface IDataset {
-  label: string;
+export interface IDataset<T> {
+  label: T;
   data: number[];
   borderColor: string;
   borderWidth: number;
@@ -11,11 +11,11 @@ export interface IDataset {
   pointHoverBackgroundColor: string;
 }
 
-export default function createDataset(
-  label: string,
+export default function createDataset<T>(
+  label: T,
   data: number[],
   borderColor: string,
-): IDataset {
+): IDataset<T> {
   return {
     label,
     data,

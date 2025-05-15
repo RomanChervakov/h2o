@@ -1,3 +1,11 @@
+.legendContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+
 .legendLabel {
   display: flex;
   align-items: center;
@@ -28,3 +36,4 @@
   font-size: 16px;
   font-weight: 700;
 }
+

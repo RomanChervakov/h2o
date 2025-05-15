@@ -15,13 +15,6 @@ export const CHART_TABS = {
   YEAR: "Год",
 } as const;
 
-export const CHART_COLORS = {
-  [TRANSACTION_TYPES.EXPANSES]: "#73CF7A",
-  [TRANSACTION_TYPES.INCOME]: "#30C7DC",
-  [TRANSACTION_TYPES.REVENUE]: "#45AAF2",
-  [TRANSACTION_TYPES.DEBT]: "#F5E230",
-} as const;
-
 export const YEAR = 2024;
 
 export const MONTHS_IN_YEAR = 12;

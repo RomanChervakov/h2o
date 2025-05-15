@@ -3,9 +3,13 @@ import LineChart from "../line-chart/LineChart.tsx";
 import createDataset from "../line-chart/helpers/createDataset.ts";
 import { useCallback, useState } from "react";
 import GeneralStatisticsTabs from "./general-statistics-tabs/GeneralStatisticsTabs.tsx";
-import type { IDataItem, TChartTabs, TUnit } from "../../types.ts";
+import type {
+  IDataItem,
+  TChartTabs,
+  TTransaction,
+  TUnit,
+} from "../../types.ts";
 import {
-  CHART_COLORS,
   CHART_TABS,
   MONTHS_IN_YEAR,
   TRANSACTION_TYPES,
@@ -16,17 +20,25 @@ import {
   getDaysInMonth,
   getMonthlyReport,
 } from "./helpers/getMonthlyReport.ts";
+import GeneralStatisticsLegend from "./general-statistics-legend-label/GeneralStatisticsLegend.tsx";
+
+const CHART_COLORS: Record<TTransaction, string> = {
+  [TRANSACTION_TYPES.EXPANSES]: "#73CF7A",
+  [TRANSACTION_TYPES.INCOME]: "#30C7DC",
+  [TRANSACTION_TYPES.REVENUE]: "#45AAF2",
+  [TRANSACTION_TYPES.DEBT]: "#F5E230",
+} as const;
+
+const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
+  [CHART_TABS.YEAR]: "month",
+  [CHART_TABS.MONTH]: "day",
+};
 
 const MONTH_INDEX = 0;
 
 interface IGeneralStatisticsProps {
   data: IDataItem[];
 }
-
-const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
-  [CHART_TABS.YEAR]: "month",
-  [CHART_TABS.MONTH]: "day",
-};
 
 export default function GeneralStatistics({ data }: IGeneralStatisticsProps) {
   const [activeTab, setActiveTab] = useState<TChartTabs>(CHART_TABS.YEAR);
@@ -70,21 +82,7 @@ export default function GeneralStatistics({ data }: IGeneralStatisticsProps) {
         />
       </div>
       <LineChart data={dataByTab[activeTab]} unit={UNIT_BY_TAB[activeTab]} />
-      {/*<div className={styles.legendContainer}>*/}
-      {/*  {dataByPeriod.datasets.map(*/}
-      {/*    ({ borderColor, label, data }: IDataset, index) => (*/}
-      {/*      <GeneralStatisticsLegendLabel*/}
-      {/*        key={label}*/}
-      {/*        backgroundColor={borderColor}*/}
-      {/*        title={label}*/}
-      {/*        value={Math.trunc(*/}
-      {/*          data.reduce((acc, val) => acc + val, 0) / data.length,*/}
-      {/*        )}*/}
-      {/*        isImportant={generalStatisticsData[index].important}*/}
-      {/*      />*/}
-      {/*    ),*/}
-      {/*  )}*/}
-      {/*</div>*/}
+      <GeneralStatisticsLegend datasets={dataByTab[activeTab].datasets} />
     </div>
   );
 }
