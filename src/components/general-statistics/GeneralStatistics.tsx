@@ -1,64 +1,90 @@
 import styles from "./GeneralStatistics.module.scss";
-import GeneralStatisticsLegendLabel from "./general-statistics-legend-label/GeneralStatisticsLegendLabel.tsx";
 import LineChart from "../line-chart/LineChart.tsx";
-import createDataset, {
-  type IDataset,
-} from "../line-chart/helpers/createDataset.ts";
-import generalStatisticsData from "../../assets/data.json";
+import createDataset from "../line-chart/helpers/createDataset.ts";
 import { useCallback, useState } from "react";
 import GeneralStatisticsTabs from "./general-statistics-tabs/GeneralStatisticsTabs.tsx";
-import { randomDataB2C } from "./helpers/randomData.ts";
+import type { IDataItem, TChartTabs, TUnit } from "../../types.ts";
+import {
+  CHART_COLORS,
+  CHART_TABS,
+  MONTHS_IN_YEAR,
+  TRANSACTION_TYPES,
+  YEAR,
+} from "../../constants.ts";
+import getYearlyReport from "./helpers/getYearlyReport.ts";
+import {
+  getDaysInMonth,
+  getMonthlyReport,
+} from "./helpers/getMonthlyReport.ts";
 
-const TABS = {
-  WEEK: "Неделя",
-  MONTH: "Месяц",
-  YEAR: "Год",
+const MONTH_INDEX = 0;
+
+interface IGeneralStatisticsProps {
+  data: IDataItem[];
+}
+
+const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
+  [CHART_TABS.YEAR]: "month",
+  [CHART_TABS.MONTH]: "day",
 };
 
-export default function GeneralStatistics() {
-  const [data, setData] = useState(randomDataB2C);
+export default function GeneralStatistics({ data }: IGeneralStatisticsProps) {
+  const [activeTab, setActiveTab] = useState<TChartTabs>(CHART_TABS.YEAR);
+
+  const handleTabClick = useCallback((tab: TChartTabs) => {
+    setActiveTab(tab);
+  }, []);
+
   const dataByTab = {
-    [TABS.YEAR]: {
-      labels: randomDataB2C.map(({ date }) => date),
-      datasets: [
+    [CHART_TABS.YEAR]: {
+      labels: Array.from(
+        { length: MONTHS_IN_YEAR },
+        (_, month) => new Date(YEAR, month),
+      ),
+      datasets: Object.values(TRANSACTION_TYPES).map((type) =>
+        createDataset(type, getYearlyReport(data, type), CHART_COLORS[type]),
+      ),
+    },
+    [CHART_TABS.MONTH]: {
+      labels: Array.from(
+        { length: getDaysInMonth(YEAR, MONTH_INDEX) },
+        (_, date) => new Date(YEAR, MONTH_INDEX, date + 1),
+      ),
+      datasets: Object.values(TRANSACTION_TYPES).map((type) =>
         createDataset(
-          "income",
-          randomDataB2C.map(({ amount }) => amount),
-          "#73CF7A",
+          type,
+          getMonthlyReport(data, type, YEAR, MONTH_INDEX),
+          CHART_COLORS[type],
         ),
-      ],
+      ),
     },
   };
-  const [dataByPeriod, setDataByPeriod] = useState(dataByTab[TABS.YEAR]);
-  const onTabClick = useCallback((data) => {
-    setDataByPeriod(data);
-  }, []);
 
   return (
     <div className={styles.card}>
       <div className={styles.headingContainer}>
         <h2 className={styles.heading}>Общая статистика</h2>
         <GeneralStatisticsTabs
-          dataByTab={dataByTab}
-          defaultTab={TABS.YEAR}
-          handleTabClick={onTabClick}
+          activeTab={activeTab}
+          handleTabClick={handleTabClick}
         />
       </div>
-      <LineChart data={dataByPeriod} unit="day" />
-      <div className={styles.legendContainer}>
-        {dataByPeriod.datasets.map(
-          ({ borderColor, label, data }: IDataset, index) => (
-            <GeneralStatisticsLegendLabel
-              backgroundColor={borderColor}
-              title={label}
-              value={Math.trunc(
-                data.reduce((acc, val) => acc + val, 0) / data.length,
-              )}
-              isImportant={generalStatisticsData[index].important}
-            />
-          ),
-        )}
-      </div>
+      <LineChart data={dataByTab[activeTab]} unit={UNIT_BY_TAB[activeTab]} />
+      {/*<div className={styles.legendContainer}>*/}
+      {/*  {dataByPeriod.datasets.map(*/}
+      {/*    ({ borderColor, label, data }: IDataset, index) => (*/}
+      {/*      <GeneralStatisticsLegendLabel*/}
+      {/*        key={label}*/}
+      {/*        backgroundColor={borderColor}*/}
+      {/*        title={label}*/}
+      {/*        value={Math.trunc(*/}
+      {/*          data.reduce((acc, val) => acc + val, 0) / data.length,*/}
+      {/*        )}*/}
+      {/*        isImportant={generalStatisticsData[index].important}*/}
+      {/*      />*/}
+      {/*    ),*/}
+      {/*  )}*/}
+      {/*</div>*/}
     </div>
   );
 }

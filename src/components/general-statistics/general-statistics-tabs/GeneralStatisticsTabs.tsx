@@ -1,33 +1,28 @@
 import styles from "./GeneralStatisticsTabs.module.scss";
 import clsx from "clsx";
-import { useState } from "react";
-import type { IGeneralStatisticsChartData } from "../helpers/generateRandomData.ts";
+import type { TChartTabs } from "../../../types.ts";
+import { CHART_TABS } from "../../../constants.ts";
+// import { useState } from "react";
 
 interface IGeneralStatisticsTabProps {
-  dataByTab: Record<string, IGeneralStatisticsChartData>;
-  defaultTab: string;
-  handleTabClick: (data: IGeneralStatisticsChartData) => void;
+  activeTab: TChartTabs;
+  handleTabClick: (tab: TChartTabs) => void;
 }
 
 export default function GeneralStatisticsTabs({
-  dataByTab,
-  defaultTab,
+  activeTab,
   handleTabClick,
 }: IGeneralStatisticsTabProps) {
-  const [activeTab, setActiveTab] = useState(defaultTab);
-
   return (
     <div className={styles.periods}>
-      {Object.keys(dataByTab).map((tab) => (
+      {Object.values(CHART_TABS).map((tab: TChartTabs) => (
         <button
+          key={tab}
           className={clsx(
             styles.periodButton,
             activeTab === tab && styles.active,
           )}
-          onClick={() => {
-            handleTabClick(dataByTab[tab]);
-            setActiveTab(tab);
-          }}
+          onClick={() => handleTabClick(tab)}
         >
           {tab}
         </button>

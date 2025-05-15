@@ -17,6 +17,7 @@ import {
   Tooltip,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import type { TUnit } from "../../types.ts";
 ChartJS.register(
   LineElement,
   TimeScale,
@@ -26,19 +27,6 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-
-type TUnit =
-  | false
-  | "month"
-  | "millisecond"
-  | "second"
-  | "minute"
-  | "hour"
-  | "day"
-  | "week"
-  | "quarter"
-  | "year"
-  | undefined;
 
 interface ILineChartProps {
   data: ChartData<"line">;
@@ -82,7 +70,7 @@ export default function LineChart({ data, unit }: ILineChartProps) {
         time: {
           unit,
           displayFormats: {
-            date: "DD",
+            month: "MMM",
           },
         },
         adapters: {

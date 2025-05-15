@@ -2,15 +2,20 @@ import styles from "./ReportCard.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
-export default function ReportCard() {
+interface IReportCardProps {
+  title: string;
+  onClick?: () => void;
+}
+
+export default function ReportCard({ title, onClick }: IReportCardProps) {
   return (
     <div className={styles.card}>
-      <span className={styles.pill}>
+      <button className={styles.pill} onClick={onClick}>
         <FontAwesomeIcon icon={faArrowUp} />
         43.7 %
-      </span>
+      </button>
       <span className={styles.amount}>₽ 8615253</span>
-      <span className={styles.division}>B2C</span>
+      <span className={styles.division}>{title}</span>
     </div>
   );
 }
