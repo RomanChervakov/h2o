@@ -3,16 +3,12 @@ import LineChart from "../line-chart/LineChart.tsx";
 import createDataset from "../line-chart/helpers/createDataset.ts";
 import { useCallback, useState } from "react";
 import GeneralStatisticsTabs from "./general-statistics-tabs/GeneralStatisticsTabs.tsx";
-import type {
-  IDataItem,
-  TChartTabs,
-  TDivision,
-  TTotal,
-  TTransaction,
-  TUnit,
-} from "../../types.ts";
+import type { IDataItem, TChartTabs, TDivision, TUnit } from "../../types.ts";
 import {
+  CHART_COLORS,
   CHART_TABS,
+  CHART_TITLES,
+  DIVISIONS,
   MONTHS_IN_YEAR,
   TOTAL,
   TRANSACTION_TYPES,
@@ -25,14 +21,6 @@ import {
 } from "./helpers/getMonthlyReport.ts";
 import GeneralStatisticsLegend from "./general-statistics-legend/GeneralStatisticsLegend.tsx";
 
-const CHART_COLORS: Record<TTransaction | TTotal, string> = {
-  [TRANSACTION_TYPES.EXPANSES]: "#73CF7A",
-  [TRANSACTION_TYPES.INCOME]: "#30C7DC",
-  [TRANSACTION_TYPES.REVENUE]: "#45AAF2",
-  [TRANSACTION_TYPES.DEBT]: "#F5E230",
-  [TOTAL]: "#AC74FC",
-} as const;
-
 const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
   [CHART_TABS.YEAR]: "month",
   [CHART_TABS.MONTH]: "day",
@@ -41,7 +29,7 @@ const UNIT_BY_TAB: Record<TChartTabs, TUnit> = {
 const MONTH_INDEX = 0;
 
 interface IGeneralStatisticsProps {
-  data: Record<TDivision | TTotal, IDataItem[]>;
+  data: Record<TDivision, IDataItem[]>;
   division: TDivision;
 }
 
@@ -69,7 +57,11 @@ export default function GeneralStatistics({
             CHART_COLORS[type],
           ),
         ),
-        createDataset(TOTAL, getYearlyReport(data[TOTAL]), CHART_COLORS[TOTAL]),
+        createDataset(
+          TOTAL,
+          getYearlyReport(data[DIVISIONS.ALL]),
+          CHART_COLORS[TOTAL],
+        ),
       ],
     },
     [CHART_TABS.MONTH]: {
@@ -87,7 +79,7 @@ export default function GeneralStatistics({
         ),
         createDataset(
           TOTAL,
-          getMonthlyReport(data[TOTAL], YEAR, MONTH_INDEX),
+          getMonthlyReport(data[DIVISIONS.ALL], YEAR, MONTH_INDEX),
           CHART_COLORS[TOTAL],
         ),
       ],
@@ -97,7 +89,7 @@ export default function GeneralStatistics({
   return (
     <div className={styles.card}>
       <div className={styles.headingContainer}>
-        <h2 className={styles.heading}>Общая статистика {division}</h2>
+        <h2 className={styles.heading}>{CHART_TITLES[division]}</h2>
         <GeneralStatisticsTabs
           activeTab={activeTab}
           handleTabClick={handleTabClick}

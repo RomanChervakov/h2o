@@ -5,8 +5,8 @@ import styles from "./App.module.scss";
 import getRandomArrayItem from "./helpers/getRandomArrayItem.ts";
 import getRandomDateInYear from "./helpers/getRandomDateInYear.ts";
 import getRandomNumberInRange from "./helpers/getRandomNumberInRange.ts";
-import { DIVISIONS, TOTAL, TRANSACTION_TYPES, YEAR } from "./constants.ts";
-import type { IDataItem, TDivision, TTotal } from "./types.ts";
+import { DIVISIONS, TRANSACTION_TYPES, YEAR } from "./constants.ts";
+import type { IDataItem, TDivision } from "./types.ts";
 import { useState } from "react";
 import ProblemZones from "./components/problem-zones/ProblemZones.tsx";
 
@@ -23,19 +23,19 @@ const randomData = Array.from(
     new Date(item1.date).getTime() - new Date(item2.date).getTime(),
 );
 
-const randomDataGrouped: Record<TDivision | TTotal, IDataItem[]> = {
+const randomDataGrouped: Record<TDivision, IDataItem[]> = {
   [DIVISIONS.B2B]: randomData.filter(
     ({ division }) => division === DIVISIONS.B2B,
   ),
   [DIVISIONS.B2C]: randomData.filter(
     ({ division }) => division === DIVISIONS.B2C,
   ),
-  [TOTAL]: randomData,
+  [DIVISIONS.ALL]: randomData,
 };
 
-const randomPercentageB2B = getRandomNumberInRange(-100, 100);
-const randomPercentageB2C = getRandomNumberInRange(-100, 100);
-const randomPercentageTotal = getRandomNumberInRange(-100, 100);
+const randomPercentageB2B = getRandomNumberInRange(0, 100);
+const randomPercentageB2C = getRandomNumberInRange(0, 100);
+const randomPercentageTotal = getRandomNumberInRange(0, 100);
 
 const totalB2B = randomDataGrouped[DIVISIONS.B2B].reduce(
   (acc, { amount }) => acc + amount,
@@ -47,46 +47,47 @@ const totalB2C = randomDataGrouped[DIVISIONS.B2C].reduce(
 );
 
 export default function App() {
-  const [division, setDivision] = useState<TDivision>(DIVISIONS.B2B);
+  const [division, setDivision] = useState<TDivision>(DIVISIONS.ALL);
 
   return (
     <Layout>
-      <h1 className={styles.heading}>Сводный отчет</h1>
-      <div className={styles.container}>
-        <div className={styles.report}>
-          <div className={styles.reportCards}>
-            <ReportCard
-              title="Итоги"
-              percentage={randomPercentageTotal}
-              amount={totalB2B + totalB2C}
-              isTotal
-            />
-            <button
-              onClick={() => {
-                setDivision(DIVISIONS.B2B);
-              }}
-            >
+      <div>
+        <h1 className={styles.heading}>Сводный отчет</h1>
+        <div className={styles.cards}>
+          <div className={styles.report}>
+            <div className={styles.reportCards}>
+              <ReportCard
+                title="Итоги"
+                percentage={randomPercentageTotal}
+                amount={totalB2B + totalB2C}
+                active={division === DIVISIONS.ALL}
+                onClick={() => {
+                  setDivision(DIVISIONS.ALL);
+                }}
+              />
               <ReportCard
                 title={DIVISIONS.B2B}
                 amount={totalB2B}
                 percentage={randomPercentageB2B}
+                active={division === DIVISIONS.B2B}
+                onClick={() => {
+                  setDivision(DIVISIONS.B2B);
+                }}
               />
-            </button>
-            <button
-              onClick={() => {
-                setDivision(DIVISIONS.B2C);
-              }}
-            >
               <ReportCard
                 title={DIVISIONS.B2C}
                 amount={totalB2C}
                 percentage={randomPercentageB2C}
+                active={division === DIVISIONS.B2C}
+                onClick={() => {
+                  setDivision(DIVISIONS.B2C);
+                }}
               />
-            </button>
+            </div>
+            <GeneralStatistics data={randomDataGrouped} division={division} />
           </div>
-          <GeneralStatistics data={randomDataGrouped} division={division} />
+          <ProblemZones />
         </div>
-        <ProblemZones />
       </div>
     </Layout>
   );

@@ -7,43 +7,42 @@ interface IReportCardProps {
   title: string;
   percentage: number;
   amount: number;
-  isTotal?: boolean;
+  onClick: () => void;
+  active: boolean;
 }
 
 export default function ReportCard({
   title,
   percentage,
   amount,
-  isTotal,
+  onClick,
+  active,
 }: IReportCardProps) {
+  const signedPercentage = amount >= 0 ? percentage : -percentage;
+
   return (
-    <div
+    <button
       className={clsx(
         styles.card,
-        isTotal
-          ? percentage >= 0
-            ? styles.success
-            : styles.danger
-          : percentage >= 0
-            ? styles.buttonSuccess
-            : styles.buttonDanger,
+        signedPercentage >= 0 ? styles.success : styles.danger,
+        active &&
+          (signedPercentage >= 0 ? styles.successActive : styles.dangerActive),
       )}
+      onClick={onClick}
     >
       <span
         className={clsx(
           styles.pill,
-          isTotal
-            ? styles.total
-            : percentage >= 0
-              ? styles.success
-              : styles.danger,
+          signedPercentage >= 0 ? styles.success : styles.danger,
         )}
       >
-        <FontAwesomeIcon icon={percentage >= 0 ? faArrowUp : faArrowDown} />
-        {percentage} %
+        <FontAwesomeIcon
+          icon={signedPercentage >= 0 ? faArrowUp : faArrowDown}
+        />
+        {signedPercentage} %
       </span>
       <span className={styles.amount}>₽ {amount?.toLocaleString("fr-FR")}</span>
       <span className={styles.division}>{title}</span>
-    </div>
+    </button>
   );
 }
