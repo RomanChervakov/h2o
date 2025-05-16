@@ -94,7 +94,7 @@ export default function LineChart({ data, unit }: ILineChartProps) {
         },
         ticks: {
           font: {
-            family: "Proxima Nova",
+            family: "Montserrat",
             size: 14,
             weight: 600,
           },
