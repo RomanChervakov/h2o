@@ -31,6 +31,7 @@ export default function GeneralStatisticsLegend({
     <div className={styles.legendContainer}>
       {datasets.map(({ label, borderColor, data }) => (
         <LabelMarker
+          key={label}
           label={TRANSACTION_TITLES[label]}
           color={borderColor}
           value={data.reduce((acc, amount) => acc + amount, 0)}

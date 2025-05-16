@@ -1,11 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* заменил Proxima Nova шрифт аналогом */
+
 :root {
-  font-family: "Proxima Nova", sans-serif;
+  font-family: Montserrat, sans-serif;
   height: 100%;
 }
 

@@ -28,6 +28,7 @@ export default function ProblemZones() {
       <h2 className={styles.heading}>Проблемные зоны</h2>
       {randomData.map(({ label, value }) => (
         <LabelMarker
+          key={label}
           label={label}
           value={value}
           color={value < CRITICAL_VALUE ? "#F7B731" : "#FC5C65"}

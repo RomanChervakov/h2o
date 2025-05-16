@@ -36,6 +36,7 @@ interface ILineChartProps {
 export default function LineChart({ data, unit }: ILineChartProps) {
   const options: ChartOptions<"line"> = {
     responsive: true,
+    aspectRatio: 2.8,
     plugins: {
       title: {
         display: false,
@@ -52,7 +53,7 @@ export default function LineChart({ data, unit }: ILineChartProps) {
         borderWidth: 1,
         bodyColor: "#323F47",
         bodyFont: {
-          family: "Proxima Nova",
+          family: "Montserrat",
           size: 18,
           weight: 600,
         },
