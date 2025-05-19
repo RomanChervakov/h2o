@@ -1,13 +1,13 @@
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  type ChartData,
-  type ChartOptions,
-  type ScriptableTooltipContext,
-  type TooltipItem,
-} from "chart.js/auto";
+import type {
+  ChartData,
+  ChartOptions,
+  ScriptableTooltipContext,
+  TooltipItem,
+} from "chart.js";
 import { ru } from "date-fns/locale";
 import {
+  Chart as ChartJS,
   TimeScale,
   Legend,
   LinearScale,
@@ -18,6 +18,7 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import type { TUnit } from "../../types.ts";
+
 ChartJS.register(
   LineElement,
   TimeScale,

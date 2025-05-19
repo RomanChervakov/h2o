@@ -51,15 +51,15 @@ export default function App() {
 
   return (
     <Layout>
-      <div>
+      <div style={{ minWidth: 0 }}>
         <h1 className={styles.heading}>Сводный отчет</h1>
         <div className={styles.cards}>
           <div className={styles.report}>
             <div className={styles.reportCards}>
               <ReportCard
                 title="Итоги"
-                percentage={randomPercentageTotal}
                 amount={totalB2B + totalB2C}
+                percentage={randomPercentageTotal}
                 active={division === DIVISIONS.ALL}
                 onClick={() => {
                   setDivision(DIVISIONS.ALL);
